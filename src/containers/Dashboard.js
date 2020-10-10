@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+
 import {InscriptionCreate} from './InscriptionCreate';
 import {InscriptionDelete} from './InscriptionDelete';
 import {HomeDash} from './HomeDash';
-import {DrawerDashboardContent} from './DrawerDashboardContent';
+import {DrawerDashboardContent} from '../components/DrawerDashboardContent';
 
 const DrawerDashboard = createDrawerNavigator();
 
