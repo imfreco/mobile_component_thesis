@@ -13,8 +13,7 @@ export const Dashboard = ({navigation}) => {
   return (
     <DrawerDashboard.Navigator
       drawerContent={(props) => <DrawerDashboardContent {...props} />}
-      drawerStyle={styles.drawerDash}
-      screenOptions={{}}>
+      sceneContainerStyle={styles.sceneContainer}>
       <DrawerDashboard.Screen name="HomeDash" component={HomeDash} />
       <DrawerDashboard.Screen
         name="InscriptionCreate"
@@ -29,5 +28,7 @@ export const Dashboard = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  drawerDash: {},
+  sceneContainer: {
+    padding: 20,
+  },
 });
