@@ -2,10 +2,11 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import {DrawerDashboardContent} from '../components/DrawerDashboardContent';
+import {HomeDash} from './HomeDash';
 import {InscriptionCreate} from './InscriptionCreate';
 import {InscriptionDelete} from './InscriptionDelete';
-import {HomeDash} from './HomeDash';
-import {DrawerDashboardContent} from '../components/DrawerDashboardContent';
+import {InscriptionRead} from './InscriptionRead';
 
 const DrawerDashboard = createDrawerNavigator();
 
@@ -22,6 +23,10 @@ export const Dashboard = ({navigation}) => {
       <DrawerDashboard.Screen
         name="InscriptionDelete"
         component={InscriptionDelete}
+      />
+      <DrawerDashboard.Screen
+        name="InscriptionRead"
+        component={InscriptionRead}
       />
     </DrawerDashboard.Navigator>
   );

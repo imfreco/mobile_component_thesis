@@ -11,7 +11,6 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {Icon} from 'react-native-vector-icons/MaterialIcons';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -34,7 +33,7 @@ const App = () => {
             component={Dashboard}
             options={{
               headerBackImage: () => <></>,
-              title: 'Realizar Inscripción',
+              title: 'Inscripciones',
               headerStyle: styles.stackAppHeader,
               headerTitleStyle: styles.stackAppHeaderTitle,
             }}

@@ -85,7 +85,9 @@ export function DrawerDashboardContent(props) {
                 <Icon name="assignment" color={color} size={size} />
               )}
               label="Inscripciones"
-              onPress={() => {}}
+              onPress={() => {
+                props.navigation.navigate('InscriptionRead');
+              }}
             />
             <DrawerItem
               icon={({color, size}) => (
