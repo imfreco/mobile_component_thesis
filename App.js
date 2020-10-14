@@ -9,48 +9,20 @@ import 'react-native-gesture-handler';
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
 
-import {Dashboard} from './src/containers/Dashboard';
-
-const AppStack = createStackNavigator();
+import {store} from './src/store';
+import {AppRouter} from './src/routes/AppRouter';
 
 const App = () => {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <AppStack.Navigator>
-          {/* <AppStack.Screen
-          name="Login"
-          component={Login}
-          options={{header: () => <></>}}
-        /> */}
-          <AppStack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{
-              headerBackImage: () => <></>,
-              title: 'Inscripciones',
-              headerStyle: styles.stackAppHeader,
-              headerTitleStyle: styles.stackAppHeaderTitle,
-            }}
-          />
-        </AppStack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider>
+        <AppRouter />
+      </PaperProvider>
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  stackAppHeader: {
-    backgroundColor: '#3c3c3c',
-  },
-  stackAppHeaderTitle: {
-    color: '#fff',
-  },
-});
 
 export default App;
