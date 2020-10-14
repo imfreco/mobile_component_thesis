@@ -1,41 +1,89 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 
 import {Picker} from '@react-native-community/picker';
 import {Button} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  startAveragesLoaded,
+  startPopulationsLoaded,
+  startSisbensLoaded,
+} from '../actions/inscription.action';
+import {useForm} from '../hooks/useForm';
 
 export const InscriptionCreate = () => {
+  const {averages, sisbens, populations} = useSelector(
+    (state) => state.inscriptionReducer,
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(startAveragesLoaded());
+    dispatch(startSisbensLoaded());
+    dispatch(startPopulationsLoaded());
+  }, [dispatch]);
+
+  const [formValues, handlePickerChange] = useForm({
+    sisbenId: 0,
+    averageId: 0,
+    populationId: 0,
+  });
+
+  const {sisbenId, averageId, populationId} = formValues;
+
   return (
     <>
       <View style={styles.containerFormPicker}>
         <Text style={styles.textFormPicker}>Puntaje sisben</Text>
         <View style={styles.containerPicker}>
-          <Picker style={styles.picker} mode="dropdown">
-            <Picker.Item label="Seleccione ..." value="Seleccione ..." />
+          <Picker
+            style={styles.picker}
+            mode="dropdown"
+            selectedValue={sisbenId}
+            onValueChange={(itemValue) => {
+              const target = {name: 'sisbenId', value: itemValue};
+              handlePickerChange({target});
+            }}>
+            <Picker.Item key={0} label="Seleccione ..." value={0} />
+            {sisbens.map(({id, value}) => (
+              <Picker.Item key={id} label={value} value={id} />
+            ))}
           </Picker>
         </View>
       </View>
       <View style={styles.containerFormPicker}>
         <Text style={styles.textFormPicker}>Promedio ponderado</Text>
         <View style={styles.containerPicker}>
-          <Picker style={styles.picker} mode="dropdown">
-            <Picker.Item label="Seleccione ..." value="Seleccione ..." />
+          <Picker
+            style={styles.picker}
+            mode="dropdown"
+            selectedValue={averageId}
+            onValueChange={(itemValue) => {
+              const target = {name: 'averageId', value: itemValue};
+              handlePickerChange({target});
+            }}>
+            <Picker.Item key={0} label="Seleccione ..." value={0} />
+            {averages.map(({id, value}) => (
+              <Picker.Item key={id} label={value} value={id} />
+            ))}
           </Picker>
         </View>
       </View>
       <View style={styles.containerFormPicker}>
         <Text style={styles.textFormPicker}>Población vulnerable</Text>
         <View style={styles.containerPicker}>
-          <Picker style={styles.picker} mode="dropdown">
-            <Picker.Item label="Seleccione ..." value="Seleccione ..." />
-          </Picker>
-        </View>
-      </View>
-      <View style={styles.containerFormPicker}>
-        <Text style={styles.textFormPicker}>Distancia</Text>
-        <View style={styles.containerPicker}>
-          <Picker style={styles.picker} mode="dropdown">
-            <Picker.Item label="Seleccione ..." value="Seleccione ..." />
+          <Picker
+            style={styles.picker}
+            mode="dropdown"
+            selectedValue={populationId}
+            onValueChange={(itemValue) => {
+              const target = {name: 'populationId', value: itemValue};
+              handlePickerChange({target});
+            }}>
+            <Picker.Item key={0} label="Seleccione ..." value={0} />
+            {populations.map(({id, value}) => (
+              <Picker.Item key={id} label={value} value={id} />
+            ))}
           </Picker>
         </View>
       </View>
