@@ -1,5 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import {useDispatch} from 'react-redux';
+
 import {
   useTheme,
   // Avatar,
@@ -15,8 +17,11 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import {setTitleNavbar} from '../actions/ui.action';
+
 export function DrawerDashboardContent(props) {
   // const paperTheme = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <View style={{flex: 1}}>
@@ -59,6 +64,7 @@ export function DrawerDashboardContent(props) {
               )}
               label="Principal"
               onPress={() => {
+                dispatch(setTitleNavbar('Principal'));
                 props.navigation.navigate('HomeDash');
               }}
             />
@@ -68,6 +74,7 @@ export function DrawerDashboardContent(props) {
               )}
               label="Realizar Inscripción"
               onPress={() => {
+                dispatch(setTitleNavbar('Realizar Inscripción'));
                 props.navigation.navigate('InscriptionCreate');
               }}
             />
@@ -77,6 +84,7 @@ export function DrawerDashboardContent(props) {
               )}
               label="Cancelar Inscripción"
               onPress={() => {
+                dispatch(setTitleNavbar('Cancelar Inscripción'));
                 props.navigation.navigate('InscriptionDelete');
               }}
             />
@@ -86,6 +94,7 @@ export function DrawerDashboardContent(props) {
               )}
               label="Inscripciones"
               onPress={() => {
+                dispatch(setTitleNavbar('Inscripciones'));
                 props.navigation.navigate('InscriptionRead');
               }}
             />
