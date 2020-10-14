@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Alert, Dimensions, StyleSheet, Text, View} from 'react-native';
 
 import {Picker} from '@react-native-community/picker';
 import {Button} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   startAveragesLoaded,
+  startInscriptionCreate,
   startPopulationsLoaded,
   startSisbensLoaded,
 } from '../actions/inscription.action';
@@ -30,6 +31,21 @@ export const InscriptionCreate = () => {
   });
 
   const {sisbenId, averageId, populationId} = formValues;
+
+  const handlePress = () => {
+    Alert.alert('Responder', '¿Acepta realizar la inscripción?', [
+      {
+        text: 'Aceptar',
+        onPress: () => {
+          dispatch(startInscriptionCreate(formValues));
+        },
+      },
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+    ]);
+  };
 
   return (
     <>
@@ -94,7 +110,7 @@ export const InscriptionCreate = () => {
         labelStyle={styles.textButton}
         contentStyle={styles.contentButton}
         style={styles.propsButton}
-        onPress={() => {}}>
+        onPress={handlePress}>
         Inscribirse
       </Button>
     </>

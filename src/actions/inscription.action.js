@@ -1,3 +1,5 @@
+import {Alert} from 'react-native';
+
 import {fetchWithoutToken} from '../helpers/request.helper';
 import {types} from '../fixtures/types';
 
@@ -54,3 +56,22 @@ const populationLoaded = (populations) => ({
   type: types.inscriptionPopulationsLoaded,
   payload: populations,
 });
+
+export const startInscriptionCreate = (data) => {
+  return async (dispatch) => {
+    try {
+      data.userId = 1;
+      // TODO: refactorizar cuando se implemente la autenticación
+      const res = await fetchWithoutToken('inscription', data, 'POST');
+      const inscription = await res.json();
+
+      if (inscription.status) {
+        Alert.alert('Error', inscription.message);
+      } else {
+        Alert.alert('Correctamente', 'Inscripción realizada');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
