@@ -18,6 +18,7 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {setTitleNavbar} from '../actions/ui.action';
+import {startInscriptionRead} from '../actions/inscription.action';
 
 export function DrawerDashboardContent(props) {
   // const paperTheme = useTheme();
@@ -95,6 +96,7 @@ export function DrawerDashboardContent(props) {
               label="Inscripciones"
               onPress={() => {
                 dispatch(setTitleNavbar('Inscripciones'));
+                dispatch(startInscriptionRead());
                 props.navigation.navigate('InscriptionRead');
               }}
             />

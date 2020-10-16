@@ -97,3 +97,29 @@ const inscriptionsReaded = (inscriptions) => ({
   type: types.inscriptionsReaded,
   payload: inscriptions,
 });
+
+export const startInscriptionAdmit = (inscriptionId) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetchWithoutToken(
+        `inscription/admit/${inscriptionId}`,
+        {state: 1},
+        'PATCH',
+      );
+      const inscription = await res.json();
+
+      if (inscription.status) {
+        Alert.alert('Error', inscription.message);
+      } else {
+        dispatch(inscriptionAdmitted(inscriptionId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const inscriptionAdmitted = (inscriptionId) => ({
+  type: types.inscriptionAdmitted,
+  payload: inscriptionId,
+});

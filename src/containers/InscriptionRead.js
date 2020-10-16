@@ -1,20 +1,29 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import {Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Card, DataTable, IconButton} from 'react-native-paper';
-import {startInscriptionRead} from '../actions/inscription.action';
+
+import {startInscriptionAdmit} from '../actions/inscription.action';
 
 export const InscriptionRead = () => {
   const {inscriptions} = useSelector((state) => state.inscriptionReducer);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(startInscriptionRead());
-  }, [dispatch]);
-
   const handleAdmit = (inscriptionId) => {
-    console.log(inscriptionId);
+    Alert.alert('Responder', '¿Acepta admitir esta inscripción?', [
+      {
+        text: 'Aceptar',
+        onPress: () => {
+          dispatch(startInscriptionAdmit(inscriptionId));
+        },
+      },
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+    ]);
   };
 
   return (
@@ -35,12 +44,14 @@ export const InscriptionRead = () => {
             </DataTable.Cell>
             <DataTable.Cell>{state ? 'ADMITIDO' : 'INSCRITO'}</DataTable.Cell>
             <DataTable.Cell>
-              <IconButton
-                icon="clipboard-check" //delete
-                color={'#3c3c3c'}
-                size={20}
-                onPress={() => handleAdmit(id)}
-              />
+              {!state && (
+                <IconButton
+                  icon="clipboard-check"
+                  color={'#3c3c3c'}
+                  size={20}
+                  onPress={() => handleAdmit(id)}
+                />
+              )}
             </DataTable.Cell>
           </DataTable.Row>
         ))}
