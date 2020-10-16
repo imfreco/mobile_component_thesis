@@ -5,8 +5,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {DrawerDashboardContent} from '../components/DrawerDashboardContent';
 import {HomeDash} from './HomeDash';
 import {InscriptionCreate} from './InscriptionCreate';
-import {InscriptionDelete} from './InscriptionDelete';
 import {InscriptionRead} from './InscriptionRead';
+import {InscriptionReadMe} from './InscriptionReadMe';
 
 const DrawerDashboard = createDrawerNavigator();
 
@@ -22,7 +22,7 @@ export const Dashboard = ({navigation}) => {
       />
       <DrawerDashboard.Screen
         name="InscriptionDelete"
-        component={InscriptionDelete}
+        component={InscriptionReadMe}
       />
       <DrawerDashboard.Screen
         name="InscriptionRead"

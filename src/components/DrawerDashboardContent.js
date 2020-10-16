@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {
-  useTheme,
+  // useTheme,
   // Avatar,
   // Title,
   // Caption,
@@ -18,7 +18,10 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {setTitleNavbar} from '../actions/ui.action';
-import {startInscriptionRead} from '../actions/inscription.action';
+import {
+  startInscriptionsRead,
+  startInscriptionsReadMe,
+} from '../actions/inscription.action';
 
 export function DrawerDashboardContent(props) {
   // const paperTheme = useTheme();
@@ -83,9 +86,10 @@ export function DrawerDashboardContent(props) {
               icon={({color, size}) => (
                 <Icon name="assignment-late" color={color} size={size} />
               )}
-              label="Cancelar Inscripción"
+              label="Mis inscripciones"
               onPress={() => {
-                dispatch(setTitleNavbar('Cancelar Inscripción'));
+                dispatch(setTitleNavbar('Mis inscripciones'));
+                dispatch(startInscriptionsReadMe());
                 props.navigation.navigate('InscriptionDelete');
               }}
             />
@@ -96,16 +100,9 @@ export function DrawerDashboardContent(props) {
               label="Inscripciones"
               onPress={() => {
                 dispatch(setTitleNavbar('Inscripciones'));
-                dispatch(startInscriptionRead());
+                dispatch(startInscriptionsRead());
                 props.navigation.navigate('InscriptionRead');
               }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="assignment-turned-in" color={color} size={size} />
-              )}
-              label="Admitir plaza"
-              onPress={() => {}}
             />
           </Drawer.Section>
           <Drawer.Section>
