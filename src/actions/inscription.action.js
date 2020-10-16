@@ -75,3 +75,25 @@ export const startInscriptionCreate = (data) => {
     }
   };
 };
+
+export const startInscriptionRead = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetchWithoutToken('inscription');
+      const inscriptions = await res.json();
+
+      if (inscriptions.status) {
+        Alert.alert('Error', inscriptions.message);
+      } else {
+        dispatch(inscriptionsReaded(inscriptions));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const inscriptionsReaded = (inscriptions) => ({
+  type: types.inscriptionsReaded,
+  payload: inscriptions,
+});
