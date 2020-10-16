@@ -1,13 +1,28 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Card, DataTable, IconButton} from 'react-native-paper';
+import {startInscriptionDelete} from '../actions/inscription.action';
+import {Alert} from 'react-native';
 
 export const InscriptionReadMe = () => {
   const {inscriptions} = useSelector((state) => state.inscriptionReducer);
 
+  const dispatch = useDispatch();
+
   const handleDelete = (inscriptionId) => {
-    console.log(inscriptionId);
+    Alert.alert('Responder', '¿Acepta eliminar esta inscripción?', [
+      {
+        text: 'Aceptar',
+        onPress: () => {
+          dispatch(startInscriptionDelete(inscriptionId));
+        },
+      },
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+    ]);
   };
 
   return (
@@ -28,14 +43,12 @@ export const InscriptionReadMe = () => {
             </DataTable.Cell>
             <DataTable.Cell>{state ? 'ADMITIDO' : 'INSCRITO'}</DataTable.Cell>
             <DataTable.Cell>
-              {!state && (
-                <IconButton
-                  icon="delete"
-                  color={'#3c3c3c'}
-                  size={20}
-                  onPress={() => handleDelete(id)}
-                />
-              )}
+              <IconButton
+                icon="delete"
+                color={'#3c3c3c'}
+                size={20}
+                onPress={() => handleDelete(id)}
+              />
             </DataTable.Cell>
           </DataTable.Row>
         ))}

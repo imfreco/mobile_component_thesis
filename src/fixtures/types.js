@@ -7,4 +7,5 @@ export const types = {
   inscriptionCreate: '[Inscription] Inscription Create',
   inscriptionsReaded: '[Inscription] Inscriptions Readed',
   inscriptionAdmitted: '[Inscription] Inscription Admitted',
+  inscriptionDeleted: '[Inscription] Inscription Deleted',
 };
