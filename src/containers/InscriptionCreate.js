@@ -19,6 +19,7 @@ export const InscriptionCreate = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // navigation.navigate('InscriptionRead'); // TEST: unauthorized route for role student
     dispatch(startAveragesLoaded());
     dispatch(startSisbensLoaded());
     dispatch(startPopulationsLoaded());

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {
   // useTheme,
@@ -22,9 +22,14 @@ import {
   startInscriptionsRead,
   startInscriptionsReadMe,
 } from '../actions/inscription.action';
+import {isAuthorized} from '../helpers/authorization.helper';
 
 export function DrawerDashboardContent(props) {
   // const paperTheme = useTheme();
+  const {
+    user: {roles},
+  } = useSelector((state) => state.authenticationReducer);
+
   const dispatch = useDispatch();
 
   return (
@@ -72,38 +77,47 @@ export function DrawerDashboardContent(props) {
                 props.navigation.navigate('HomeDash');
               }}
             />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="assignment-ind" color={color} size={size} />
-              )}
-              label="Realizar Inscripción"
-              onPress={() => {
-                dispatch(setTitleNavbar('Realizar Inscripción'));
-                props.navigation.navigate('InscriptionCreate');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="assignment-late" color={color} size={size} />
-              )}
-              label="Mis inscripciones"
-              onPress={() => {
-                dispatch(setTitleNavbar('Mis inscripciones'));
-                dispatch(startInscriptionsReadMe());
-                props.navigation.navigate('InscriptionDelete');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="assignment" color={color} size={size} />
-              )}
-              label="Inscripciones"
-              onPress={() => {
-                dispatch(setTitleNavbar('Inscripciones'));
-                dispatch(startInscriptionsRead());
-                props.navigation.navigate('InscriptionRead');
-              }}
-            />
+
+            {isAuthorized(['estudiante'], roles) && (
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="assignment-ind" color={color} size={size} />
+                )}
+                label="Realizar Inscripción"
+                onPress={() => {
+                  dispatch(setTitleNavbar('Realizar Inscripción'));
+                  props.navigation.navigate('InscriptionCreate');
+                }}
+              />
+            )}
+
+            {isAuthorized(['estudiante'], roles) && (
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="assignment-late" color={color} size={size} />
+                )}
+                label="Mis inscripciones"
+                onPress={() => {
+                  dispatch(setTitleNavbar('Mis inscripciones'));
+                  dispatch(startInscriptionsReadMe());
+                  props.navigation.navigate('InscriptionReadMe');
+                }}
+              />
+            )}
+
+            {isAuthorized(['administrador'], roles) && (
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="assignment" color={color} size={size} />
+                )}
+                label="Inscripciones"
+                onPress={() => {
+                  dispatch(setTitleNavbar('Inscripciones'));
+                  dispatch(startInscriptionsRead());
+                  props.navigation.navigate('InscriptionRead');
+                }}
+              />
+            )}
           </Drawer.Section>
           <Drawer.Section>
             <DrawerItem
