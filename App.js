@@ -9,16 +9,24 @@ import 'react-native-gesture-handler';
  */
 
 import React from 'react';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 
 import {store} from './src/store';
 import {AppRouter} from './src/routes/AppRouter';
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3c3c3c',
+  },
+};
+
 const App = () => {
   return (
     <Provider store={store}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <AppRouter />
       </PaperProvider>
     </Provider>
