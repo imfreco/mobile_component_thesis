@@ -4,9 +4,14 @@ import {Alert} from 'react-native';
 
 import {fetchWithoutToken, fetchWithToken} from '../helpers/request.helper';
 import {types} from '../fixtures/types';
-// import {items} from '../fixtures/items.store';
+import {items} from '../fixtures/items.store';
 import {sortDictionary} from '../helpers/sort.dictionary.helper';
 import {stopLoading} from './ui.action';
+import {
+  getSecureValue,
+  removeSecureValue,
+  setSecureValue,
+} from '../helpers/keychain.helper';
 
 export const startDictionaryRead = () => {
   return async (dispatch) => {
@@ -29,7 +34,7 @@ const dictionaryReaded = (dictionary, token) => ({
   payload: {dictionary, token},
 });
 
-export const startLogIn = (email, password, navigation) => {
+export const startLogIn = (email, password) => {
   return async (dispatch, getState) => {
     try {
       const {dict_token} = getState().authenticationReducer;
@@ -45,9 +50,8 @@ export const startLogIn = (email, password, navigation) => {
       } else {
         const {id_token, refresh_token} = body;
         const {user, name, lastname, roles} = decode(id_token);
-        // localStorage.setItem(items.refreshToken, refresh_token);
+        setSecureValue(items.refreshToken, refresh_token);
         dispatch(logIn({id: user, name, lastname, roles, id_token}));
-        navigation.navigate('Dashboard');
       }
 
       dispatch(stopLoading());
@@ -65,23 +69,24 @@ const logIn = (user) => ({
 export const startSilentAuthentication = () => {
   return async (dispatch) => {
     try {
-      const rt = localStorage.getItem(items.refreshToken);
+      const rt = await getSecureValue(items.refreshToken);
 
       if (rt) {
         const res = await fetchWithToken('auth/refresh', {}, 'GET', rt);
         const body = await res.json();
 
         if (body.message) {
-          localStorage.removeItem(items.refreshToken);
+          Alert.alert('Tenga en cuenta', 'Su sesión ha finalizado');
+          removeSecureValue(items.refreshToken);
         } else {
           const {id_token, refresh_token} = body;
           const {user, name, lastname, roles} = decode(id_token);
-          // localStorage.setItem(items.refreshToken, refresh_token);
+          setSecureValue(items.refreshToken, refresh_token);
           dispatch(logIn({id: user, name, lastname, roles, id_token}));
         }
       }
 
-      // dispatch(stopLoadingSilentAuth());
+      dispatch(stopLoadingSilentAuth());
     } catch (error) {
       console.error(error);
     }

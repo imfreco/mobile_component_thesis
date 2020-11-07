@@ -1,18 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {LogIn} from '../containers/LogIn';
 import {Dashboard} from '../containers/Dashboard';
+import {startSilentAuthentication} from '../actions/authentication.action';
+import {Loading} from '../components/Loading';
 
 const AppStack = createStackNavigator();
 
 export const AppRouter = () => {
   const {titleNavbar} = useSelector((state) => state.uiReducer);
-  const {isAuthenticated} = useSelector((state) => state.authenticationReducer);
+  const {isAuthenticated, isLoading} = useSelector(
+    (state) => state.authenticationReducer,
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('authentication silent');
+    dispatch(startSilentAuthentication());
+  }, [dispatch]);
+
+  if (isLoading) return <Loading size="large" />;
 
   return (
     <NavigationContainer>
