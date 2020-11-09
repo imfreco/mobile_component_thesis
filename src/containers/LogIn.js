@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Dimensions, StyleSheet, View} from 'react-native';
-import {ActivityIndicator, Button, TextInput} from 'react-native-paper';
+import {Button, TextInput} from 'react-native-paper';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 
 import {
@@ -60,97 +60,95 @@ export const LogIn = ({navigation}) => {
   if (showLoading) return <Loading size="large" />;
 
   return (
-    <ScrollView>
-      <View style={styles.containerLogIn}>
-        <View>
-          <View style={styles.containerItemDict}>
-            {alphabet.map(({original, substitute}) => (
-              <ItemDictionary
-                key={original}
-                original={original}
-                substitute={substitute}
-              />
-            ))}
-          </View>
-          <View style={styles.containerItemDict}>
-            {numbers.map(({original, substitute}) => (
-              <ItemDictionary
-                key={original}
-                original={original}
-                substitute={substitute}
-              />
-            ))}
-          </View>
-        </View>
-        <View style={styles.containerForm}>
-          <TextInput
-            mode="outlined"
-            label="Correo electrónico"
-            value={email}
-            onChangeText={(value) =>
-              handleInputChange({target: {name: 'email', value}})
-            }
-            textContentType="emailAddress"
-            onFocus={() =>
-              setValues((values) => ({...values, showNumericKeyboard: false}))
-            }
-          />
-
-          <TextInput
-            mode="outlined"
-            label="Contraseña"
-            value={password}
-            textContentType="password"
-            onFocus={() =>
-              setValues((values) => ({...values, showNumericKeyboard: true}))
-            }
-          />
-
-          {values.showNumericKeyboard && (
-            <View style={styles.containerNumericKeyboard}>
-              <FlatList
-                data={numericKeyboardButtons}
-                renderItem={({item}) => (
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: 'column',
-                      margin: 1,
-                    }}>
-                    <Button
-                      mode="contained"
-                      style={styles.styleButtonNumber}
-                      onPress={() => {
-                        let target = {name: 'password'};
-                        if (item.toLowerCase() === 'borrar') {
-                          target.value = password.slice(0, password.length - 1);
-                        } else {
-                          target.value = `${password}${item}`;
-                        }
-                        handleInputChange({target});
-                      }}>
-                      {item}
-                    </Button>
-                  </View>
-                )}
-                //Setting the number of column
-                numColumns={3}
-                keyExtractor={(item, index) => index.toString()}
-              />
+    <FlatList
+      ListHeaderComponent={
+        <>
+          <View>
+            <View style={styles.containerItemDict}>
+              {alphabet.map(({original, substitute}) => (
+                <ItemDictionary
+                  key={original}
+                  original={original}
+                  substitute={substitute}
+                />
+              ))}
             </View>
-          )}
+            <View style={styles.containerItemDict}>
+              {numbers.map(({original, substitute}) => (
+                <ItemDictionary
+                  key={original}
+                  original={original}
+                  substitute={substitute}
+                />
+              ))}
+            </View>
+          </View>
+          <View style={styles.containerForm}>
+            <TextInput
+              mode="outlined"
+              label="Correo electrónico"
+              value={email}
+              onChangeText={(value) =>
+                handleInputChange({target: {name: 'email', value}})
+              }
+              textContentType="emailAddress"
+              onFocus={() =>
+                setValues((values) => ({...values, showNumericKeyboard: false}))
+              }
+            />
 
-          <Button
-            icon="check-circle"
-            mode="contained"
-            labelStyle={styles.textButton}
-            style={styles.propsButton}
-            onPress={handleLogIn}>
-            Iniciar Sesión
-          </Button>
+            <TextInput
+              mode="outlined"
+              label="Contraseña"
+              value={password}
+              secureTextEntry={true}
+              onFocus={() =>
+                setValues((values) => ({...values, showNumericKeyboard: true}))
+              }
+            />
+          </View>
+        </>
+      }
+      data={numericKeyboardButtons}
+      renderItem={({item}) => (
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            margin: 1,
+          }}>
+          {values.showNumericKeyboard && (
+            <Button
+              mode="contained"
+              style={styles.styleButtonNumber}
+              onPress={() => {
+                let target = {name: 'password'};
+                if (item.toLowerCase() === 'borrar') {
+                  target.value = password.slice(0, password.length - 1);
+                } else {
+                  target.value = `${password}${item}`;
+                }
+                handleInputChange({target});
+              }}>
+              {item}
+            </Button>
+          )}
         </View>
-      </View>
-    </ScrollView>
+      )}
+      //Setting the number of column
+      numColumns={3}
+      keyExtractor={(item, index) => index.toString()}
+      ListFooterComponent={
+        <Button
+          icon="check-circle"
+          mode="contained"
+          labelStyle={styles.textButton}
+          style={(styles.propsButton, styles.containerForm)}
+          onPress={handleLogIn}>
+          Iniciar Sesión
+        </Button>
+      }
+    />
   );
 };
 
