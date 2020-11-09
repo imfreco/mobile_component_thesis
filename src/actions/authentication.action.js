@@ -96,3 +96,18 @@ export const startSilentAuthentication = () => {
 const stopLoadingSilentAuth = () => ({
   type: types.authnStopLoading,
 });
+
+export const startLogOut = () => {
+  return async (dispatch) => {
+    try {
+      removeSecureValue(items.refreshToken);
+      dispatch(logOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const logOut = () => ({
+  type: types.authnLogOut,
+});

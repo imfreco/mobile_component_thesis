@@ -50,6 +50,13 @@ export const authenticationReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    case types.authnLogOut:
+      return {
+        ...state,
+        id_token: initialState.id_token,
+        user: {...initialState.user},
+        isAuthenticated: false,
+      };
     default:
       return state;
   }

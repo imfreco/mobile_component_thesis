@@ -14,4 +14,5 @@ export const types = {
   authnDictionaryReaded: '[Authn] Substitution Dictionary Readed',
   authnLogIn: '[Authn] Log In',
   authnStopLoading: '[Authn] Stop Loading Silent Authentication',
+  authnLogOut: '[Authn] Log Out',
 };

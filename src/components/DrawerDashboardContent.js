@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -22,6 +22,7 @@ import {
   startInscriptionsRead,
   startInscriptionsReadMe,
 } from '../actions/inscription.action';
+import {startLogOut} from '../actions/authentication.action';
 import {isAuthorized} from '../helpers/authorization.helper';
 
 export function DrawerDashboardContent(props) {
@@ -119,13 +120,31 @@ export function DrawerDashboardContent(props) {
               />
             )}
           </Drawer.Section>
+
           <Drawer.Section>
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="exit-to-app" color={color} size={size} />
               )}
               label="Cerrar Sesión"
-              onPress={() => {}}
+              onPress={() => {
+                Alert.alert(
+                  'Responder',
+                  '¿Está seguro de finalizar su sesión?',
+                  [
+                    {
+                      text: 'Aceptar',
+                      onPress: () => {
+                        dispatch(startLogOut());
+                      },
+                    },
+                    {
+                      text: 'Cancelar',
+                      style: 'cancel',
+                    },
+                  ],
+                );
+              }}
             />
           </Drawer.Section>
         </View>
