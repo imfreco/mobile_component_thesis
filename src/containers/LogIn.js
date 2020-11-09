@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, Keyboard, StyleSheet, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 
@@ -102,9 +102,10 @@ export const LogIn = ({navigation}) => {
               label="Contraseña"
               value={password}
               secureTextEntry={true}
-              onFocus={() =>
-                setValues((values) => ({...values, showNumericKeyboard: true}))
-              }
+              onFocus={() => {
+                Keyboard.dismiss();
+                setValues((values) => ({...values, showNumericKeyboard: true}));
+              }}
             />
           </View>
         </>
