@@ -1,9 +1,18 @@
-import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import {setTitleNavbar} from '../actions/ui.action';
+
 export const HomeDash = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setTitleNavbar('Principal'));
+  }, [dispatch]);
+
   return (
     <View style={styles.containerHomeDash}>
       <Icon name="restaurant-menu" size={180} color="black" />

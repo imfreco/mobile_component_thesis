@@ -21,12 +21,17 @@ export const Dashboard = () => {
     <DrawerDashboard.Navigator
       drawerContent={(props) => <DrawerDashboardContent {...props} />}
       sceneContainerStyle={styles.sceneContainer}>
-      <DrawerDashboard.Screen name="HomeDash" component={HomeDash} />
+      <DrawerDashboard.Screen
+        name="HomeDash"
+        component={HomeDash}
+        options={{unmountOnBlur: true}}
+      />
 
       {isAuthorized(['estudiante'], roles) && (
         <DrawerDashboard.Screen
           name="InscriptionCreate"
           component={InscriptionCreate}
+          options={{unmountOnBlur: true}}
         />
       )}
 
@@ -34,6 +39,7 @@ export const Dashboard = () => {
         <DrawerDashboard.Screen
           name="InscriptionReadMe"
           component={InscriptionReadMe}
+          options={{unmountOnBlur: true}}
         />
       )}
 
@@ -41,6 +47,7 @@ export const Dashboard = () => {
         <DrawerDashboard.Screen
           name="InscriptionRead"
           component={InscriptionRead}
+          options={{unmountOnBlur: true}}
         />
       )}
     </DrawerDashboard.Navigator>

@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Card, DataTable, IconButton} from 'react-native-paper';
-import {startInscriptionDelete} from '../actions/inscription.action';
 import {Alert} from 'react-native';
+import {Card, DataTable, IconButton} from 'react-native-paper';
+
+import {
+  startInscriptionDelete,
+  startInscriptionsReadMe,
+} from '../actions/inscription.action';
+import {setTitleNavbar} from '../actions/ui.action';
 
 export const InscriptionReadMe = () => {
   const {inscriptions} = useSelector((state) => state.inscriptionReducer);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setTitleNavbar('Mis inscripciones'));
+    dispatch(startInscriptionsReadMe());
+  }, [dispatch]);
 
   const handleDelete = (inscriptionId) => {
     Alert.alert('Responder', '¿Acepta eliminar esta inscripción?', [

@@ -8,10 +8,19 @@ export const startAveragesLoaded = () => {
     try {
       const {id_token} = getState().authenticationReducer;
 
-      const res = await fetchWithToken('average', {}, 'GET', id_token);
+      const res = await fetchWithToken(
+        'average',
+        {},
+        'GET',
+        id_token,
+        dispatch,
+      );
       const averages = await res.json();
 
-      dispatch(averagesLoaded(averages));
+      if (!averages.status) {
+        dispatch(averagesLoaded(averages));
+        dispatch(startSisbensLoaded());
+      }
     } catch (error) {
       console.log(error);
     }
@@ -28,10 +37,13 @@ export const startSisbensLoaded = () => {
     try {
       const {id_token} = getState().authenticationReducer;
 
-      const res = await fetchWithToken('sisben', {}, 'GET', id_token);
+      const res = await fetchWithToken('sisben', {}, 'GET', id_token, dispatch);
       const sisbens = await res.json();
 
-      dispatch(sisbensLoaded(sisbens));
+      if (!sisbens.status) {
+        dispatch(sisbensLoaded(sisbens));
+        dispatch(startPopulationsLoaded());
+      }
     } catch (error) {
       console.log(error);
     }
@@ -48,10 +60,16 @@ export const startPopulationsLoaded = () => {
     try {
       const {id_token} = getState().authenticationReducer;
 
-      const res = await fetchWithToken('population', {}, 'GET', id_token);
+      const res = await fetchWithToken(
+        'population',
+        {},
+        'GET',
+        id_token,
+        dispatch,
+      );
       const populations = await res.json();
 
-      dispatch(populationLoaded(populations));
+      if (!populations.status) dispatch(populationLoaded(populations));
     } catch (error) {
       console.log(error);
     }
@@ -72,12 +90,16 @@ export const startInscriptionCreate = (data) => {
       } = getState().authenticationReducer;
       data.userId = id;
 
-      const res = await fetchWithToken('inscription', data, 'POST', id_token);
+      const res = await fetchWithToken(
+        'inscription',
+        data,
+        'POST',
+        id_token,
+        dispatch,
+      );
       const inscription = await res.json();
 
-      if (inscription.status) {
-        Alert.alert('Error', inscription.message);
-      } else {
+      if (!inscription.status) {
         Alert.alert('Correctamente', 'Inscripción realizada');
       }
     } catch (error) {
@@ -91,14 +113,16 @@ export const startInscriptionsRead = () => {
     try {
       const {id_token} = getState().authenticationReducer;
 
-      const res = await fetchWithToken('inscription', {}, 'GET', id_token);
+      const res = await fetchWithToken(
+        'inscription',
+        {},
+        'GET',
+        id_token,
+        dispatch,
+      );
       const inscriptions = await res.json();
 
-      if (inscriptions.status) {
-        Alert.alert('Error', inscriptions.message);
-      } else {
-        dispatch(inscriptionsReaded(inscriptions));
-      }
+      if (!inscriptions.status) dispatch(inscriptionsReaded(inscriptions));
     } catch (error) {
       console.log(error);
     }
@@ -123,14 +147,11 @@ export const startInscriptionsReadMe = () => {
         {},
         'GET',
         id_token,
+        dispatch,
       );
       const inscriptions = await res.json();
 
-      if (inscriptions.status) {
-        Alert.alert('Error', inscriptions.message);
-      } else {
-        dispatch(inscriptionsReaded(inscriptions));
-      }
+      if (!inscriptions.status) dispatch(inscriptionsReaded(inscriptions));
     } catch (error) {
       console.log(error);
     }
@@ -147,14 +168,11 @@ export const startInscriptionAdmit = (inscriptionId) => {
         {state: 1},
         'PATCH',
         id_token,
+        dispatch,
       );
       const inscription = await res.json();
 
-      if (inscription.status) {
-        Alert.alert('Error', inscription.message);
-      } else {
-        dispatch(inscriptionAdmitted(inscriptionId));
-      }
+      if (!inscription.status) dispatch(inscriptionAdmitted(inscriptionId));
     } catch (error) {
       console.log(error);
     }
@@ -176,14 +194,11 @@ export const startInscriptionDelete = (inscriptionId) => {
         {},
         'DELETE',
         id_token,
+        dispatch,
       );
       const inscription = await res.json();
 
-      if (inscription.status) {
-        Alert.alert('Error', inscription.message);
-      } else {
-        dispatch(inscriptionDeleted(inscriptionId));
-      }
+      if (!inscription.status) dispatch(inscriptionDeleted(inscriptionId));
     } catch (error) {
       console.log(error);
     }

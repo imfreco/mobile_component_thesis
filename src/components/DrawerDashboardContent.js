@@ -73,10 +73,7 @@ export function DrawerDashboardContent(props) {
                 <Icon name="dashboard" color={color} size={size} />
               )}
               label="Principal"
-              onPress={() => {
-                dispatch(setTitleNavbar('Principal'));
-                props.navigation.navigate('HomeDash');
-              }}
+              onPress={() => props.navigation.navigate('HomeDash')}
             />
 
             {isAuthorized(['estudiante'], roles) && (
@@ -85,10 +82,7 @@ export function DrawerDashboardContent(props) {
                   <Icon name="assignment-ind" color={color} size={size} />
                 )}
                 label="Realizar Inscripción"
-                onPress={() => {
-                  dispatch(setTitleNavbar('Realizar Inscripción'));
-                  props.navigation.navigate('InscriptionCreate');
-                }}
+                onPress={() => props.navigation.navigate('InscriptionCreate')}
               />
             )}
 
@@ -98,11 +92,7 @@ export function DrawerDashboardContent(props) {
                   <Icon name="assignment-late" color={color} size={size} />
                 )}
                 label="Mis inscripciones"
-                onPress={() => {
-                  dispatch(setTitleNavbar('Mis inscripciones'));
-                  dispatch(startInscriptionsReadMe());
-                  props.navigation.navigate('InscriptionReadMe');
-                }}
+                onPress={() => props.navigation.navigate('InscriptionReadMe')}
               />
             )}
 
@@ -112,11 +102,7 @@ export function DrawerDashboardContent(props) {
                   <Icon name="assignment" color={color} size={size} />
                 )}
                 label="Inscripciones"
-                onPress={() => {
-                  dispatch(setTitleNavbar('Inscripciones'));
-                  dispatch(startInscriptionsRead());
-                  props.navigation.navigate('InscriptionRead');
-                }}
+                onPress={() => props.navigation.navigate('InscriptionRead')}
               />
             )}
           </Drawer.Section>

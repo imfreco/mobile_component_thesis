@@ -1,15 +1,24 @@
-import React from 'react';
-import {Alert} from 'react-native';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {Alert} from 'react-native';
 import {Card, DataTable, IconButton} from 'react-native-paper';
 
-import {startInscriptionAdmit} from '../actions/inscription.action';
+import {
+  startInscriptionAdmit,
+  startInscriptionsRead,
+} from '../actions/inscription.action';
+import {setTitleNavbar} from '../actions/ui.action';
 
 export const InscriptionRead = () => {
   const {inscriptions} = useSelector((state) => state.inscriptionReducer);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setTitleNavbar('Inscripciones'));
+    dispatch(startInscriptionsRead());
+  }, [dispatch]);
 
   const handleAdmit = (inscriptionId) => {
     Alert.alert('Responder', '¿Acepta admitir esta inscripción?', [

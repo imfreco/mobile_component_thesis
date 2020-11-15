@@ -14,7 +14,7 @@ import {useForm} from '../hooks/useForm';
 import {startLoading} from '../actions/ui.action';
 import {Loading} from '../components/Loading';
 
-export const LogIn = ({navigation}) => {
+export const LogIn = () => {
   const dispatch = useDispatch();
 
   const {
@@ -22,10 +22,10 @@ export const LogIn = ({navigation}) => {
   } = useSelector((state) => state.authenticationReducer);
   const {showLoading} = useSelector((state) => state.uiReducer);
 
-  useEffect(() => {
-    dispatch(startLoading());
-    dispatch(startDictionaryRead());
-  }, [dispatch]);
+  const [values, setValues] = useState({
+    timeExpired: false,
+    showNumericKeyboard: false,
+  });
 
   const numericKeyboardButtons = [
     '7',
@@ -41,20 +41,21 @@ export const LogIn = ({navigation}) => {
     'Borrar',
   ];
 
-  const [values, setValues] = useState({
-    showNumericKeyboard: false,
-  });
-
-  const [formValues, handleInputChange] = useForm({
+  const [formValues, handleInputChange, reset] = useForm({
     email: '',
     password: '',
   });
 
   const {email, password} = formValues;
 
+  useEffect(() => {
+    dispatch(startLoading());
+    dispatch(startDictionaryRead());
+  }, [dispatch, values.timeExpired]);
+
   const handleLogIn = () => {
     dispatch(startLoading());
-    dispatch(startLogIn(email, password, navigation));
+    dispatch(startLogIn(email, password, setValues, reset));
   };
 
   if (showLoading) return <Loading size="large" />;

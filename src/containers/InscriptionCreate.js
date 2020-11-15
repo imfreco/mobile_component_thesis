@@ -11,6 +11,7 @@ import {
   startSisbensLoaded,
 } from '../actions/inscription.action';
 import {useForm} from '../hooks/useForm';
+import {setTitleNavbar} from '../actions/ui.action';
 
 export const InscriptionCreate = () => {
   const {averages, sisbens, populations} = useSelector(
@@ -20,9 +21,8 @@ export const InscriptionCreate = () => {
 
   useEffect(() => {
     // navigation.navigate('InscriptionRead'); // TEST: unauthorized route for role student
+    dispatch(setTitleNavbar('Realizar Inscripción'));
     dispatch(startAveragesLoaded());
-    dispatch(startSisbensLoaded());
-    dispatch(startPopulationsLoaded());
   }, [dispatch]);
 
   const [formValues, handlePickerChange] = useForm({
