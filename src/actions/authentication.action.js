@@ -22,9 +22,10 @@ export const startDictionaryRead = () => {
       const res = await fetchWithoutToken('auth/substitution');
       const body = await res.json();
 
-      const payload = decode(body.token);
-      const dictionary = sortDictionary(payload.dictionary);
-      dispatch(dictionaryReaded(dictionary, body.token));
+      const {dict_token} = body;
+      let {dictionary} = decode(dict_token);
+      dictionary = sortDictionary(dictionary);
+      dispatch(dictionaryReaded(dictionary, dict_token));
       dispatch(stopLoading());
     } catch (error) {
       console.log(error);
@@ -32,9 +33,9 @@ export const startDictionaryRead = () => {
   };
 };
 
-const dictionaryReaded = (dictionary, token) => ({
+const dictionaryReaded = (dictionary, dict_token) => ({
   type: types.authnDictionaryReaded,
-  payload: {dictionary, token},
+  payload: {dictionary, dict_token},
 });
 
 export const startLogIn = (email, password, setValues, reset) => {
